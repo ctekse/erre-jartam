@@ -1,0 +1,49 @@
+{
+    "name": "erre-jartam",
+    "version": "0.1.0",
+    "description": "",
+    "homepage": "",
+    "author": {
+        "name": "Csaba Tekse",
+        "email": "ctekse@gmail.com"
+    },
+    "main": "build/index.js",
+    "keywords": [
+        "Node",
+        "Express",
+        "Typescript"
+    ],
+    "scripts": {
+        "dev": "nodemon --inspect src/server/app.ts",
+        "build": "gulp build",
+        "start": "gulp watchFiles",
+        "tslint": "gulp tslint"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "morgan": "^1.9.1"
+    },
+    "devDependencies": {
+        "@types/body-parser": "^1.17.1",
+        "@types/express": "^4.17.2",
+        "@types/morgan": "^1.7.37",
+        "gulp": "^4.0.2",
+        "gulp-nodemon": "^2.4.2",
+        "gulp-plumber": "^1.2.1",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-tslint": "^8.1.4",
+        "gulp-typedoc": "^2.2.3",
+        "gulp-typescript": "^5.0.1",
+        "rimraf": "^3.0.0",
+        "run-sequence": "^2.2.1",
+        "ts-node": "^8.5.4",
+        "tslint": "^5.20.1",
+        "typedoc": "^0.15.6",
+        "typescript": "^3.7.4",
+        "winston": "^3.2.1"
+    },
+    "engines": {
+        "node": ">=8.0.0"
+    }
+}
