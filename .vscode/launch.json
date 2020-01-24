@@ -7,17 +7,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "nodemon",
-            "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\nodemon",
-            // "program": "${workspaceFolder}/src/server.ts",
-            "restart": true,
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/src/server/app.ts",
+            "preLaunchTask": "npm: build",
             "outFiles": [
-                "build/**/*.js"
+                "${workspaceFolder}/build/**/*.js"
             ]
         },
         {

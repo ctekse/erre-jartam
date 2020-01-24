@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145845622-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-145845622-1');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <title>Erre jártam</title>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="searchBox">
+        <div class="mdc-card">
+            {{#if errorMsg}}
+            <div>
+                <p>
+                    {{errorMsg}}
+                </p>
+            </div>
+            {{/if}}
+            <form id="RouteForm" method="GET">
+                <div class="mdc-layout-grid">
+                    <div class="mdc-layout-grid__inner">
+                        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                            <div class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
+                                <input id="RouteId" type="text" class="mdc-text-field__input">
+                                <div class="mdc-notched-outline">
+                                    <div class="mdc-notched-outline__leading"></div>
+                                    <div class="mdc-notched-outline__notch">
+                                        <label for="RouteId" class="mdc-floating-label">Enter the route id</label>
+                                    </div>
+                                    <div class="mdc-notched-outline__trailing"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                            <button id="RouteSubmit" type="button" class="redirect-btn mdc-button mdc-button--raised mdc-theme--secondary-bg mdc-theme--on-secondary">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Show me!</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript">
+    window.ej = {
+        settings: {
+            routesUrl: {{baseUrl}}
+        }
+    }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{googleMapsKey}}&callback=initMap"></script>    
+</body>
+
+</html>
