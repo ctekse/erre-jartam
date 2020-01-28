@@ -5,103 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
     <title>Erre jártam - Admin felület</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/edit.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 </head>
 
 <body>
     <div class="main-container">
         <div class="left-container">
-            <div>
-                <h3>Edit file:</h3>
-                <form>
-                    <div class="form-group">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="LoadFile">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                        </div>
-                    </div>
-                </form>
+            <header class="mdc-top-app-bar mdc-top-app-bar--dense app-bar" id="app-bar">
+                <div class="mdc-top-app-bar__row">
+                    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                        <a href="#" class="demo-menu material-icons mdc-top-app-bar__navigation-icon">menu</a>
+                        <span class="mdc-top-app-bar__title">Dismissible Drawer</span>
+                    </section>
+                </div>
+            </header>
+            <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
+                <main class="main-content" id="main-content">
+                    <form method="POST" action="/edit/L1dHZ6kgHfAzhzkkm25Z/createFromKml" enctype="multipart/form-data">
+                        <input type="file" name="kmlInput" />
+                        <input type="submit" >Upload</input>
+                    </form>
+                </main>
             </div>
-            <div>
-                <h3 class="float-left mr-3">2. Edit routes:</h3>
-                <span class="spinner-border" role="status" style="display: none">
-                    <span class="sr-only">Loading...</span>
-                </span>
-            </div>
-            <div id="RouteList" class="list-group-flush">
-            </div>
-            <div class="edit-route">
-                <form>
-                    <div class="form-group mt-3">
-                        <button id="AddRoute" type="button" class="btn btn-sm btn-outline-secondary">Add new route</button>
-                        <h5 style="display: none;">To add new route click on the map the start and end point.
-                        </h5>
-                    </div>
-                    <div class="form-group">
-                        <label for="Name">Route name:</label>
-                        <input type="text" id="Name" name="Name" class="form-control" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label for="RouteTypeSelect">Route type:</label>
-                            <select id="RouteTypeSelect" class="form-control">
-                                <option value="Road">Road</option>
-                                <option value="Air">Air</option>
-                                <!-- <option value="RailRoad">Train</option>
-                <option value="Water">Ship/boat</option> -->
-                            </select>
-                        </div>
-                        <div class="form-group col">
-                            <label for="RouteDistance">Route distance:</label>
-                            <input class="form-control" id="RouteDistance" type="text" readonly required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <button id="SaveRoute" type="button" class="btn btn-sm btn-outline-primary btn-block">Save</button>
-                        </div>
-                        <div class="form-group col-3">
-                            <button id="CancelEditMode" type="button" class="btn btn-sm btn-outline-secondary btn-block">Cancel</button>
-                        </div>
-                        <div class="form-group col-3">
-                            <button id="RestartRouteDefinition" type="button" class="d-none btn btn-sm btn-outline-warning btn-block">Restart</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div>
-                <h3>3. Download file:</h3>
-                <form>
-                    <div class="form-group">
-                        <button id="Download" type="button" class="btn btn-sm btn-outline-secondary">Download</button>
-                    </div>
-                </form>
-            </div>
-
         </div>
-        <div class="col" id="map"></div>
+        <div class="col" id="map">
+            This is the map
+        </div>
     </div>
 
-    <script id="route-template" type="text/x-handlebars-template">
-    <div class="list-group-item" data-uuid="{{id}}">
-      {{name}}
-      <span class="route-actions float-right">
-          <!-- <i class="fas fa-crosshairs" aria-hidden="true"></i> -->
-          <i class="material-icons md-18 icon-edit">edit</i>
-          <i class="material-icons md-18 icon-delete">delete_forever</i>
-        </span>
-    </div>
-  </script>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="js/togeojson.js"></script>
-    <script src="js/tokml.js"></script>
+    <script>
+            const topAppBar = window.mdc.topAppBar.MDCTopAppBar.attachTo(document.getElementById('app-bar'));
+            topAppBar.setScrollTarget(document.getElementById('main-content'));
+            topAppBar.listen('MDCTopAppBar:nav', () => {
+                drawer.open = !drawer.open;
+            });
+    </script>
 </body>
 
 </html>

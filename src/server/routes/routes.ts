@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
-import { repository } from "../modules/fireStoneRepository";
+import { repository } from "../components/repository/repositoryFactory";
+import { transformEngine } from "../components/engine/transformEngine";
 
 let router = Router();
 
@@ -12,17 +13,13 @@ let routesViewModel = {
 };
 
 router.post(routesPath + ':id', async (req: Request, res: Response, next: NextFunction) => {
-    res.json({ok: 'OK'});
-
-    // let routesData = await repository.getById(req.params.id);
-    // // tslint:disable-next-line: whitespace
-    // if( routesData ) {
-    //     res.render('index', {
-    //         baseUrl: routesPath,
-    //         errorMsg: 'Route found!',
-    //         layout: false
-    //     });    } else {
-    //     res.render('index');
+    let routesData = await repository.getById(req.params.id);
+    // let hasPermission = await permission.isOwnData(routesData);
+    // if(hasPermission){
+    // let routesDataClient = await transformEngine.ToClientData(routesData);
+        res.json(routesData);
+    // } else {
+    //     res.sendStatus(403);
     // }
 });
 
