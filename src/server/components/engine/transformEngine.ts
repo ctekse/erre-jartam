@@ -11,7 +11,7 @@ class TransformEngine {
         return toGeoJson.kml(kmlDocument);
     }
 
-    public ToFeatureArray(geojson: GeoJSON): Feature[] {
+    public ToCuratedFeatureArray(geojson: GeoJSON): Feature[] {
         switch(geojson.type) {
             case 'FeatureCollection': return this.FeatureCollectionToFeatureArray(geojson);
             case 'Feature': return this.FeatureToFeatureArray(geojson);
@@ -19,15 +19,13 @@ class TransformEngine {
         }
     }
 
-    // public ToClientData(
-
     private FeatureToFeatureArray(feature: Feature): Feature[] {
-        return [this.CleanupFeatureProperties(feature)];
+        return [this.CurateFeature(feature)];
     }
 
     private FeatureCollectionToFeatureArray(featureCollection: FeatureCollection): Feature[] {
         return featureCollection.features.map(element => {
-            return this.CleanupFeatureProperties(element);
+            return this.CurateFeature(element);
         });
     }
 
@@ -37,7 +35,11 @@ class TransformEngine {
         }];
     }
 
-    private CleanupFeatureProperties(feature: Feature): Feature {
+    private CurateFeature(feature: Feature): Feature {
+        // first check if this Geometry type is supported, return null otherwise
+        // TODO: remove all the unsupported Geometries
+
+        // than: cleanup the unused properties:
         for (const property in feature.properties) {
             if(property !== 'name' && property !== 'Distance') {
                 delete feature.properties[property];

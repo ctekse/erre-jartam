@@ -12,7 +12,7 @@ router.post('/:id/createFromKml', upload.single('kmlInput'), async (req: Request
     }
 
     let geoJsonObj = transformEngine.FromBuffer(req.file.buffer);
-    let featureArray = transformEngine.ToFeatureArray(geoJsonObj);
+    let featureArray = transformEngine.ToCuratedFeatureArray(geoJsonObj);
 
     // let routesCollection = await repository.getById(req.params.id);
     // TODO, maybe put it as a middleware?
