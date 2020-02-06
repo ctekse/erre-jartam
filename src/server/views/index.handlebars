@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="utf-8">
     <title>Erre jártam</title>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/css/styles.css">
@@ -45,7 +46,7 @@
                             </div>
                         </div>
                         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-                            <button id="RouteSubmit" type="button" class="redirect-btn mdc-button mdc-button--raised mdc-theme--secondary-bg mdc-theme--on-secondary">
+                            <button id="RouteSubmit" type="button" class="redirect-btn mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">
                                 <div class="mdc-button__ripple"></div>
                                 <span class="mdc-button__label">Show me!</span>
                             </button>
@@ -57,13 +58,6 @@
     </div>
 
     <script type="text/javascript" src="/js/main.js"></script>
-    <script type="text/javascript">
-    window.ej = {
-        settings: {
-            routesUrl: '{{baseUrl}}'
-        }
-    }
-    </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{googleMapsKey}}&callback=initMap"></script>    
 </body>
 

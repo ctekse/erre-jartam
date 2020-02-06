@@ -1,41 +1,64 @@
 import * as toGeoJson from "@tmcw/togeojson";
 import { DOMParser } from "xmldom";
 import { GeoJSON, Geometry, FeatureCollection, Feature } from 'geojson';
+import { RouteModel, StylePairModel } from '../../../common/types';
+import { RouteDTO } from '../repository/repositoryFactory';
 
 class TransformEngine {
     /**
     * Converts the uploaded file to GeoJson
     */
-    public FromBuffer(buffer: Buffer): GeoJSON {
+    public fromBuffer(buffer: Buffer): GeoJSON {
         let kmlDocument = new DOMParser().parseFromString(buffer.toString('UTF8'), "text/xml");
         return toGeoJson.kml(kmlDocument);
     }
 
-    public ToCuratedFeatureArray(geojson: GeoJSON): Feature[] {
+    public toCuratedFeatureArray(geojson: GeoJSON): Feature[] {
         switch(geojson.type) {
-            case 'FeatureCollection': return this.FeatureCollectionToFeatureArray(geojson);
-            case 'Feature': return this.FeatureToFeatureArray(geojson);
-            default: return this.GeometryToFeatureArray(geojson);
+            case 'FeatureCollection': return this.featureCollectionToFeatureArray(geojson);
+            case 'Feature': return this.featureToFeatureArray(geojson);
+            default: return this.geometryToFeatureArray(geojson);
         }
     }
 
-    private FeatureToFeatureArray(feature: Feature): Feature[] {
-        return [this.CurateFeature(feature)];
+    public dtoToModel(routeDto: RouteDTO): RouteModel {
+        let model: RouteModel = {
+            id: routeDto.id,
+            name: routeDto.name,
+            routes: routeDto.routes,
+            defaultStyle: { // TODO: defaultStyle!
+                normal: {
+                    strokeColor: '#f00',
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2
+                },
+                hover: {
+                    strokeOpacity: 1,
+                    strokeWeight: 3
+                }
+            }
+        };
+
+        return model;
     }
 
-    private FeatureCollectionToFeatureArray(featureCollection: FeatureCollection): Feature[] {
+    private featureToFeatureArray(feature: Feature): Feature[] {
+        return [this.curateFeature(feature)];
+    }
+
+    private featureCollectionToFeatureArray(featureCollection: FeatureCollection): Feature[] {
         return featureCollection.features.map(element => {
-            return this.CurateFeature(element);
+            return this.curateFeature(element);
         });
     }
 
-    private GeometryToFeatureArray(geometry: Geometry): Feature[] {
+    private geometryToFeatureArray(geometry: Geometry): Feature[] {
         return [ <Feature>{
             geometry: geometry
         }];
     }
 
-    private CurateFeature(feature: Feature): Feature {
+    private curateFeature(feature: Feature): Feature {
         // first check if this Geometry type is supported, return null otherwise
         // TODO: remove all the unsupported Geometries
 

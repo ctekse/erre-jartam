@@ -1,10 +1,11 @@
-import { Firestore, FieldValue, GeoPoint, DocumentReference } from '@google-cloud/firestore';
-import { IRepository, RouteCollection, RouteData, RouteCoordinates } from './repositoryFactory';
+import { Firestore, GeoPoint, DocumentReference } from '@google-cloud/firestore';
+import { IRepository, RouteDTO } from './repositoryFactory';
 import * as path from "path";
 import { Feature, Geometry, Position, FeatureCollection, GeoJsonProperties } from 'geojson';
 
 export class FirestoreRepository implements IRepository {
     private firestore: Firestore = null;
+    private docRoot = '/routes/';
 
     private routeTypeDocRefs: {[name: string]: DocumentReference; } = {};
 
@@ -23,14 +24,11 @@ export class FirestoreRepository implements IRepository {
 
     }
 
-    public async getById(id: string): Promise<RouteCollection> {
-        let docRef = this.firestore.doc('/routes/' + id);
+    public async getById(id: string): Promise<RouteDTO> {
+        let docRef = this.firestore.doc(this.docRoot + id);
         let doc = await docRef.get();
 
-        let routes: FeatureCollection = <FeatureCollection>{
-            type: "FeatureCollection",
-            features: []
-        };
+        let routes: Feature[] = [];
 
         const routesQuery = await docRef.collection('routes').get();
         const routeDocs = routesQuery.docs;
@@ -38,7 +36,7 @@ export class FirestoreRepository implements IRepository {
             let routeTypeRef = route.get('routeType');
             let geometryType = route.get('geometryType');
 
-            routes.features.push(<Feature>{
+            routes.push(<Feature>{
                 id: route.id,
                 properties: <GeoJsonProperties>{
                     name: route.get('name'),
@@ -52,20 +50,20 @@ export class FirestoreRepository implements IRepository {
             });
         }
 
-        return new RouteCollection( {
+        return new RouteDTO( {
             id: doc.id,
             name: doc.get('name'),
             routes: routes
         });
     }
 
-    public async filter(searchTerm: string): Promise<RouteCollection[]> {
+    public async filter(searchTerm: string): Promise<RouteDTO[]> {
         throw new Error('Method not implemented.');
     }
 
     public async save(id: string, features: Feature[]): Promise<Feature[]> {
         let collection = this.firestore
-            .doc('/routes/' + id)
+            .doc('this.docRoot' + id)
             .collection('routes');
 
         let docRefs = await this.firestore.collection('routeTypes').listDocuments();
@@ -87,6 +85,12 @@ export class FirestoreRepository implements IRepository {
 
         return features;
     }
+
+    public async delete(id: string): Promise<boolean> {
+        let result = await this.firestore.doc(this.docRoot + id).delete();
+        return true;
+    }
+
 
     private coordinatesToGeoPoints(geometry: Geometry): GeoPoint[] {
         let geoPoints: GeoPoint[] = [];

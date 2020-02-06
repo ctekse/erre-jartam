@@ -25,7 +25,9 @@ export class Server {
 
         let app: Express = express();
 
-        app.use(express.static(path.join(__dirname, '..', '..', 'src', 'public')));
+        // TODO: remove this after the gulp task is ready!
+        app.use(express.static(path.join(__dirname, '..', '..', 'src', 'client')));
+        app.use(express.static(path.join(__dirname, '..', 'public')));
 
         // view engine setup
         app.set('views', path.join(__dirname, '..', '..', 'src', 'server', 'views'));

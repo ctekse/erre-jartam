@@ -30,7 +30,7 @@
     };
 
     document.addEventListener("DOMContentLoaded", function () {
-        var routeId = location.pathname.replace(window.ej.settings.routesUrl, '').replace('/', '');
+        var routeId = location.pathname.replace('/', '');
         getRouteData(routeId, false);
     });
 
@@ -50,12 +50,12 @@
                     document.getElementById('searchBox').style.display = 'none';
 
                     if(changeUrl){
-                        window.history.pushState({ "routeId": routeId }, "", window.ej.settings.routesUrl + routeId);
+                        window.history.pushState({ "routeId": routeId }, "", routeId);
                     }
                 }
             };
 
-            xhttp.open("POST", window.ej.settings.routesUrl + routeId, true);
+            xhttp.open("POST", routeId, true);
             xhttp.send();
         }
     }

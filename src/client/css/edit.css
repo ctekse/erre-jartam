@@ -1,0 +1,96 @@
+body {
+  display: flex;
+  height: 100vh;
+  margin: 0;
+}
+
+.mdc-drawer-app-content {
+  flex: auto;
+  overflow: auto;
+  position: relative;
+}
+
+.main-content {
+  height: 100%;
+}
+
+.app-bar {
+  position: absolute;
+}
+
+.mdc-top-app-bar {
+  z-index: 7;
+}
+
+/* MDC overrides: */
+.mdc-drawer {
+    width: 350px;
+}
+
+.mdc-drawer .mdc-list-item {
+    margin: 0;
+    border-radius: 0;
+}
+
+.map-buttons > div {
+  background-color: white;
+  margin: 10px 0 0 10px;
+  display: flex;
+  color: rgb(102, 102, 102);
+}
+
+.map-buttons i {
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  border-left: 1px solid rgb(235, 235, 235);
+
+}
+
+.map-buttons i:first-child {
+  border-left: none;
+}
+
+.map-buttons i:hover {
+  color: rgb(51, 51, 51);
+  background-color: rgb(235, 235, 235);
+}
+
+.mdc-list-item .mdc-list-item__meta {
+  display: none;
+}
+
+.mdc-list-item:hover .mdc-list-item__meta {
+  display: unset;
+}
+
+.search-container {
+  padding: 8px 8px 0 8px;
+}
+
+.search-container .mdc-text-field {
+  width: 100%;
+}
+
+.list-item-hovered::before {
+  opacity: 0.04 !important;
+}
+
+.action-buttons {
+  padding: 6px;
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid lightgray;
+}
+
+.action-buttons-heading {
+  line-height: 46px;
+  font-weight: bold;
+}
+
+.edit-route {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}

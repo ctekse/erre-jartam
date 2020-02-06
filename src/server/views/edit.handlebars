@@ -5,44 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
     <title>Erre jártam - Admin felület</title>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/edit.css">
+    <link rel="stylesheet" href="/css/edit.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 </head>
 
-<body>
-    <div class="main-container">
-        <div class="left-container">
-            <header class="mdc-top-app-bar mdc-top-app-bar--dense app-bar" id="app-bar">
-                <div class="mdc-top-app-bar__row">
-                    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                        <a href="#" class="demo-menu material-icons mdc-top-app-bar__navigation-icon">menu</a>
-                        <span class="mdc-top-app-bar__title">Dismissible Drawer</span>
-                    </section>
+<body class="mdc-typography">
+    <header class="mdc-top-app-bar mdc-top-app-bar--dense app-bar" id="app-bar" data-mdc-auto-init="MDCTopAppBar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <i class="material-icons mdc-top-app-bar__navigation-icon">beenhere</i>
+                <span class="mdc-top-app-bar__title">
+                    Erre jártam - <small>{{routeId}}</small>
+                </span>
+                {{!-- <div class="mdc-select mdc-select--outlined mdc-select--no-label" data-mdc-auto-init="MDCSelect">
+                    <div class="mdc-select__anchor demo-width-class">
+                        <i class="mdc-select__dropdown-icon"></i>
+                        <div class="mdc-select__selected-text"></div>
+                        <span class="mdc-floating-label">Pick a Food Group</span>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
+
+                    <div class="mdc-select__menu mdc-menu mdc-menu-surface demo-width-class">
+                        <ul class="mdc-list">
+                            <li class="mdc-list-item mdc-list-item--selected" data-value="" aria-selected="true"></li>
+                            <li class="mdc-list-item" data-value="grains">
+                                Bread, Cereal, Rice, and Pasta
+                            </li>
+                            <li class="mdc-list-item" data-value="vegetables">
+                                Vegetables
+                            </li>
+                            <li class="mdc-list-item" data-value="fruit">
+                                Fruit
+                            </li>
+                        </ul>
+                    </div>
+                </div> --}}
+                <a class="material-icons mdc-icon-button" href="/{{routeId}}" target="_blank" aria-label="Download">open_in_new</a>
+            </section>
+            {{!-- <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Download">file_download</button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Print this page">print</button>
+                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Bookmark this page">bookmark</button>
+                <span>{{user.name}}</span>
+            </section> --}}
+        </div>
+    </header>
+    <aside class="mdc-drawer mdc-top-app-bar--dense-fixed-adjust">
+        <div class="mdc-drawer__content">
+            <div class="action-buttons">
+                <div class="action-buttons-heading">Routes: </div>
+                <div>
+                    <button type="button" class="mdc-icon-button material-icons" title="Add point">add_location</button>
+                    <button type="button" class="mdc-icon-button material-icons" title="Add line">timeline</button type="button">
+                    <button type="button" class="mdc-icon-button material-icons" title="Add route">directions</button type="button">
+                    <button type="button" class="mdc-icon-button material-icons" title="Load from file">map</button type="button">
                 </div>
-            </header>
-            <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
-                <main class="main-content" id="main-content">
-                    <form method="POST" action="/edit/L1dHZ6kgHfAzhzkkm25Z/createFromKml" enctype="multipart/form-data">
-                        <input type="file" name="kmlInput" />
-                        <input type="submit" >Upload</input>
-                    </form>
-                </main>
+            </div>
+            <div class="search-container" {{#unless searchDisplay}}style="display:none"{{/unless}}>
+                <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon" data-mdc-auto-init="MDCTextField">
+                    <input type="text" id="tf-outlined" class="mdc-text-field__input">
+                    <div class="mdc-notched-outline" data-mdc-auto-init="MDCNotchedOutline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                            <label for="tf-outlined" class="mdc-floating-label">Search</label>
+                            <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">search</i>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mdc-list" data-mdc-auto-init="MDCList">
+                {{#each routes}}
+                <a class="mdc-list-item" href="" aria-current="page" id="list_{{this.id}}">
+                    <span class="mdc-list-item__text">{{this.name}}</span>
+                    <span class="mdc-list-item__meta">
+                        <span class="material-icons" aria-hidden="true">edit</span>
+                        <span class="material-icons" aria-hidden="true">delete_outline</span>
+                    </span>
+                </a>
+                {{/each}}
+            </div>
+            <div class="edit-route" style="display: none;">
+                <input type="text" name="RouteName">
+                <input type="text" name="Distance">
             </div>
         </div>
-        <div class="col" id="map">
-            This is the map
+    </aside>
+
+    <div class="mdc-drawer-app-content mdc-top-app-bar--dense-fixed-adjust">
+        <main class="main-content" id="map"></main>
+    </div>
+
+    <div id="map-buttons" class="map-buttons" style="display: none;">
+        <div>
+            <i class="material-icons mdc-button__icon" aria-hidden="true" title="Add point">add_location</i>
+            <i class="material-icons mdc-button__icon" aria-hidden="true" title="Add line">timeline</i>
+            <i class="material-icons mdc-button__icon" aria-hidden="true" title="Add route">directions</i>
+            <i class="material-icons mdc-button__icon" aria-hidden="true" title="Load from file">map</i>
         </div>
     </div>
 
-    <script>
-            const topAppBar = window.mdc.topAppBar.MDCTopAppBar.attachTo(document.getElementById('app-bar'));
-            topAppBar.setScrollTarget(document.getElementById('main-content'));
-            topAppBar.listen('MDCTopAppBar:nav', () => {
-                drawer.open = !drawer.open;
-            });
-    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/editor.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{googleMapsKey}}&callback=initMap"></script>
 </body>
 
 </html>

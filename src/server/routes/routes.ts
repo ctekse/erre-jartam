@@ -4,15 +4,7 @@ import { transformEngine } from "../components/engine/transformEngine";
 
 let router = Router();
 
-let routesPath = '/routes/';
-
-let routesViewModel = {
-    baseUrl: routesPath,
-    errorMsg: <string>null,
-    layout: false
-};
-
-router.post(routesPath + ':id', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/:id', async (req: Request, res: Response, next: NextFunction) => {
     let routesData = await repository.getById(req.params.id);
     // let hasPermission = await permission.isOwnData(routesData);
     // if(hasPermission){
@@ -23,9 +15,8 @@ router.post(routesPath + ':id', async (req: Request, res: Response, next: NextFu
     // }
 });
 
-router.use(['/', routesPath] , (req: Request, res: Response, next: NextFunction) => {
+router.use('/:id?' , (req: Request, res: Response, next: NextFunction) => {
     res.render('index', {
-        baseUrl: routesPath,
         googleMapsKey: process.env.GOOGLE_MAPS_KEY,
         layout: false
     });
