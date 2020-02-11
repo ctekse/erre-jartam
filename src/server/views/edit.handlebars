@@ -66,27 +66,18 @@
             </div>
             <div class="search-container" {{#unless searchDisplay}}style="display:none"{{/unless}}>
                 <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon" data-mdc-auto-init="MDCTextField">
-                    <input type="text" id="tf-outlined" class="mdc-text-field__input">
+                    <input type="text" id="route-search" class="mdc-text-field__input" autocomplete="false">
                     <div class="mdc-notched-outline" data-mdc-auto-init="MDCNotchedOutline">
                         <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
-                            <label for="tf-outlined" class="mdc-floating-label">Search</label>
+                            <label for="route-search" class="mdc-floating-label">Search</label>
                             <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">search</i>
                         </div>
                         <div class="mdc-notched-outline__trailing"></div>
                     </div>
                 </div>
             </div>
-            <div class="mdc-list" data-mdc-auto-init="MDCList">
-                {{#each routes}}
-                <a class="mdc-list-item" href="" aria-current="page" id="list_{{this.id}}">
-                    <span class="mdc-list-item__text">{{this.name}}</span>
-                    <span class="mdc-list-item__meta">
-                        <span class="material-icons" aria-hidden="true">edit</span>
-                        <span class="material-icons" aria-hidden="true">delete_outline</span>
-                    </span>
-                </a>
-                {{/each}}
+            <div id="route-list" class="mdc-list" data-mdc-auto-init="MDCList">
             </div>
             <div class="edit-route" style="display: none;">
                 <input type="text" name="RouteName">

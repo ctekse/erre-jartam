@@ -1,46 +1,57 @@
 var path = require('path');
 var webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
     devtool: 'source-map',
-    entry: './build/client/scripts/editor.js',
+    entry: {
+        editor: './build/client/scripts/editor.js',
+        main: './build/client/scripts/main.js'
+    },
     target: 'web',
     watch: false,
 
     output: {
-        filename: 'editor.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, './build/public/js')
     },
 
     module: {
-        rules: [{
-            test: /\.(js)?$/,
-            include: path.resolve(__dirname, './build/client/scripts'),
-            exclude: /node_modules/
-        },
-        {
-            enforce: "pre",
-            test: /\.js$/,
-            loader: "source-map-loader"
-        }]
+        rules: [
+            {
+                test: /\.(js)?$/,
+                include: path.resolve(__dirname, './build/client/scripts'),
+                exclude: /node_modules/
+            },
+            {
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
+            },
+            { 
+                test: /\.hbs/, 
+                loader: 'handlebars-loader'
+            },
+        ]
     },
 
     resolve: {
-        extensions: [".webpack.js", ".web.js", ".js"]
+        extensions: [".webpack.js", ".web.js", ".js"],
+        alias: {
+            client_templates: path.resolve(__dirname, './src/client/templates')
+        }
     },
 
     externals: {
-        "jquery": "jQuery",
-        "handlebars": "Handlebars"
+        "jquery": "jQuery"
     },
 
     plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery',
-            'Handlebars': 'handlebars'
-        })
+        new CleanWebpackPlugin()
     ]
 };
+
+if (process.env.NODE_ENV === 'production') {
+    module.exports.plugins.push(new UglifyJSPlugin());
+}

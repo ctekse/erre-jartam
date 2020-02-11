@@ -7,9 +7,10 @@ let router = Router();
 router.post('/:id', async (req: Request, res: Response, next: NextFunction) => {
     let routesData = await repository.getById(req.params.id);
     // let hasPermission = await permission.isOwnData(routesData);
+    // TODO:
     // if(hasPermission){
-    // let routesDataClient = await transformEngine.ToClientData(routesData);
-        res.json(routesData);
+        let model = transformEngine.dtoToModel(routesData);
+        res.json(model);
     // } else {
     //     res.sendStatus(403);
     // }
