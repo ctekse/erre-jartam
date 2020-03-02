@@ -1,14 +1,15 @@
 import { Feature } from 'geojson';
 import * as $ from "jquery";
-import { FeatureEx } from './types';
-import { RouteModel, StylePairModel, StyleModel } from '../../common/types';
+import { FeatureEx, RouteTypeEditor } from './types';
+import { RouteModel, StyleModel, StyleMap } from '../../common/types';
 import * as template from 'client_templates/routeListTemplate.hbs';
 import { ClientScriptHelpers } from './helpers';
+import { LineEditor } from './lineEditor';
 
 class ErreJartamEditor {
     private map: google.maps.Map;
     private routeData: Map<string, FeatureEx> = new Map<string, FeatureEx>();
-    private defaultStyle: StyleModel | StylePairModel;
+    private defaultStyle: StyleMap = {};
 
     initMap() {
         this.map = new google.maps.Map($('#map').get(0), {
@@ -32,13 +33,16 @@ class ErreJartamEditor {
                 editor.unHighlightMapObject(feature);
             })
             .on('click', '.mdc-list-item', function (event) {
-//                event.preventDefault();
-//                event.stopPropagation();
+               event.preventDefault();
+               event.stopPropagation();
             })
             .on('click', '.material-icons', function (event) {
                 if ($(this).text() === 'edit') {
                     let id = $(this).parents('a').get(0).id.replace('list_', '');
-                    editor.editRoute(id);
+                    setTimeout(() => {
+                        editor.toggleRoutes(false, id);
+                        editor.editRoute(id);
+                    }, 150);
                 } else if ($(this).text() === 'delete_outline') {
                     let id = $(this).parents('a').get(0).id.replace('list_', '');
                     editor.deleteRoute(id);
@@ -71,7 +75,7 @@ class ErreJartamEditor {
     }
 
     processRouteData(data: RouteModel) {
-        this.defaultStyle = data.defaultStyle;
+        this.defaultStyle = data.styles;
         let latLngBounds = new google.maps.LatLngBounds();
         let routeListHTML = '';
 
@@ -81,7 +85,15 @@ class ErreJartamEditor {
 
             routeListHTML += template(routeData);
 
-            routeData.mapObject = ClientScriptHelpers.createMapObj(routeData, latLngBounds, this.map, this.defaultStyle);
+            routeData.mapObject = ClientScriptHelpers.createMapObj(routeData, this.map, this.defaultStyle);
+
+            if(routeData.mapObject instanceof google.maps.Marker) {
+                latLngBounds.extend(routeData.mapObject.getPosition());
+            } else {
+                routeData.mapObject.getPath().forEach((latLng) => {
+                    latLngBounds.extend(latLng);
+                });
+            }
             routeData.mapEventListeners = [];
             routeData.mapEventListeners.push(
                 routeData.mapObject.addListener('click', function () {
@@ -112,15 +124,43 @@ class ErreJartamEditor {
         feature.mapObject.setOptions(style);
     }
 
-    editRoute(id: string) {
+    toggleRoutes(show: boolean, id?: string) {
         this.routeData.forEach(value => {
-            if (value.id === id) {
-                // value.mapObject.setEditable(true);
-                $('.edit-route').show();
-            } else {
-                value.mapObject.setMap(null);
-            }
+            // if (value.id !== id) {
+                value.mapObject.setMap(show ? this.map : null);
+            // }
         });
+    }
+
+    editRoute(id: string) {
+        let routeData = this.routeData.get(id);
+
+        let routeEditor: RouteTypeEditor = null;
+
+        switch (routeData.properties.routeType) {
+            case 'Line':
+                routeEditor = new LineEditor(this.map, this.defaultStyle, $('.edit-route'));
+                break;
+            case 'Point': break;
+            case 'Direction': break;
+        }
+
+        routeEditor.editRoute(routeData, this.routeEditorFinished.bind(this));
+    }
+
+    routeEditorFinished(newRouteData?: Feature) {
+        if (newRouteData) {
+            let routeData = this.routeData.get(newRouteData.id.toString());
+            routeData.properties = newRouteData.properties;
+            routeData.geometry = newRouteData.geometry;
+
+            if (newRouteData.geometry.type === "LineString") {
+                (<google.maps.Polyline>routeData.mapObject).setPath(ClientScriptHelpers.positionToLatLngArray(newRouteData.geometry.coordinates));
+            } else if (newRouteData.geometry.type === "Point") {
+                (<google.maps.Marker>routeData.mapObject).setPosition(ClientScriptHelpers.positionToLatLng(newRouteData.geometry.coordinates));
+            }
+        }
+        this.toggleRoutes(true);
     }
 
     deleteRoute(id: string) {

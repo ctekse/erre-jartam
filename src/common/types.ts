@@ -4,7 +4,7 @@ export class RouteModel {
     public id: string;
     public name: string;
     public routes: Feature[];
-    public defaultStyle: StyleModel | StylePairModel;
+    public styles: StyleMap;
 }
 
 export class StyleModel {
@@ -12,9 +12,9 @@ export class StyleModel {
     public strokeOpacity?: number;
     public strokeWeight?: number;
     public markerUrl?: string;
+    public hover?: StyleModel;
 }
 
-export class StylePairModel {
-    public normal: StyleModel;
-    public hover: StyleModel;
-}
+// export type StyleMap = Map<string, StyleModel>;
+
+export type StyleMap = { [name: string]: StyleModel; };

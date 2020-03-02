@@ -1,7 +1,7 @@
 import * as toGeoJson from "@tmcw/togeojson";
 import { DOMParser } from "xmldom";
 import { GeoJSON, Geometry, FeatureCollection, Feature } from 'geojson';
-import { RouteModel, StylePairModel } from '../../../common/types';
+import { RouteModel, StyleModel } from '../../../common/types';
 import { RouteDTO } from '../repository/repositoryFactory';
 
 class TransformEngine {
@@ -26,17 +26,16 @@ class TransformEngine {
             id: routeDto.id,
             name: routeDto.name,
             routes: routeDto.routes,
-            defaultStyle: { // TODO: defaultStyle!
-                normal: {
-                    strokeColor: '#f00',
-                    strokeOpacity: 0.5,
-                    strokeWeight: 2
-                },
+            styles: { 'default': {
+                // TODO: defaultStyle!
+                strokeColor: '#f00',
+                strokeOpacity: 0.5,
+                strokeWeight: 2,
                 hover: {
                     strokeOpacity: 1,
                     strokeWeight: 3
                 }
-            }
+            }}
         };
 
         return model;

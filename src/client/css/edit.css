@@ -68,6 +68,10 @@ body {
   color: #000000;
 }
 
+.mdc-drawer__content {
+  position: relative;
+}
+
 .search-container {
   padding: 8px 8px 0 8px;
 }
@@ -94,7 +98,31 @@ body {
 }
 
 .edit-route {
-  position: absolute;
-  top: 0;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+}
+
+.editor-btn-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid lightgray;
+  padding: 8px;
+}
+
+.mdc-form-field {
+  padding: 8px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mdc-text-field.route-name,
+.mdc-text-field.route-distance,
+.mdc-select.route-category,
+.route-category .mdc-select__anchor,
+.route-category .mdc-select__menu {
+  width: 100%;
 }

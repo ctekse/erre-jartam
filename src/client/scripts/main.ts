@@ -53,20 +53,30 @@ class ErreJartam {
         let latLngBounds = new google.maps.LatLngBounds();
 
         routeData.routes.forEach(element => {
-            let mapObj = ClientScriptHelpers.createMapObj(element, latLngBounds, this.map, routeData.defaultStyle);
+            let mapObj = ClientScriptHelpers.createMapObj(element, this.map, routeData.styles);
+
+            if (mapObj instanceof google.maps.Marker) {
+                latLngBounds.extend(mapObj.getPosition());
+            } else {
+                mapObj.getPath().forEach((latLng) => {
+                    latLngBounds.extend(latLng);
+                });
+            }
 
             mapObj.addListener('click', function (event: google.maps.MouseEvent) {
                 mainApp.showInfoWindow(event.latLng, element);
             });
             mapObj.addListener('mouseover', function () {
-                let style = ClientScriptHelpers.getStyle(element, true, routeData.defaultStyle);
+                let style = ClientScriptHelpers.getStyle(element, true, routeData.styles);
                 mapObj.setOptions(style);
             });
             mapObj.addListener('mouseout', function () {
-                let style = ClientScriptHelpers.getStyle(element, false, routeData.defaultStyle);
+                let style = ClientScriptHelpers.getStyle(element, false, routeData.styles);
                 mapObj.setOptions(style);
             });
         });
+
+        this.map.fitBounds(latLngBounds, 10);
     }
 
     showInfoWindow(latLng: google.maps.LatLng, feature: Feature) {

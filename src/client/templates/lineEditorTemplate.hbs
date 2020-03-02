@@ -1,0 +1,34 @@
+<div >
+    <div class="editor-btn-row">
+        <button class="mdc-icon-button material-icons">arrow_back</button>
+        <button class="mdc-icon-button material-icons">save</button>
+    </div>
+    <form id="edit-form">
+        <div class="mdc-form-field">
+            <div class="mdc-text-field route-name" data-mdc-auto-init="MDCTextField">
+                <input type="text" name="name" id="route-name" class="mdc-text-field__input" value="{{properties.name}}">
+                <label class="mdc-floating-label" for="route-name">Name</label>
+                <div class="mdc-line-ripple" data-mdc-auto-init="MDCLineRipple"></div>
+            </div>
+        </div>
+        <div class="mdc-form-field">
+            <div class="mdc-select route-category" data-mdc-auto-init="MDCSelect">
+                <div class="mdc-select__anchor">
+                    <i class="mdc-select__dropdown-icon"></i>
+                    <div class="mdc-select__selected-text">{{properties.category}}</div>
+                    <span class="mdc-floating-label">Category</span>
+                    <div class="mdc-line-ripple" data-mdc-auto-init="MDCLineRipple"></div>
+                </div>
+                <div class="mdc-select__menu mdc-menu mdc-menu-surface">
+                    <ul class="mdc-list">
+                        <li class="mdc-list-item mdc-list-item--selected" data-value="" aria-selected="true"></li>
+                        <li class="mdc-list-item" data-value="Air">Air</li>
+                        <li class="mdc-list-item" data-value="Point">Point</li>
+                        <li class="mdc-list-item" data-value="Road">Road</li>
+                        <li class="mdc-list-item" data-value="Water">Water</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

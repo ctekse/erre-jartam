@@ -1,5 +1,6 @@
-import { FirestoreRepository } from "./fireStoneRepository";
+import { FirestoreRepository } from "./firestoreRepository";
 import { Feature, FeatureCollection } from 'geojson';
+import { StyleModel } from '../../../common/types';
 
 export interface IRepository {
     getById(id: string): Promise<RouteDTO>;
@@ -12,6 +13,7 @@ export class RouteDTO {
     public id: string;
     public name: string;
     public routes: Feature[];
+    public categories: StyleModel[];
 
     public constructor(init?: Partial<RouteDTO>) {
         Object.assign(this, init);

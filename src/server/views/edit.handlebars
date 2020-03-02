@@ -82,6 +82,47 @@
             <div class="edit-route" style="display: none;">
                 <input type="text" name="RouteName">
                 <input type="text" name="Distance">
+
+                    <div class="edit-route">
+                        <form>
+                            <div class="form-group mt-3">
+                                <button id="AddRoute" type="button" class="btn btn-sm btn-outline-secondary">Add new route</button>
+                                <h5 style="display: none;">To add new route click on the map the start and end point.
+                                </h5>
+                            </div>
+                            <div class="form-group">
+                                <label for="Name">Route name:</label>
+                                <input type="text" id="Name" name="Name" class="form-control" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="RouteTypeSelect">Route type:</label>
+                                    <select id="RouteTypeSelect" class="form-control">
+                                        <option value="Road">Road</option>
+                                        <option value="Air">Air</option>
+                                        <!-- <option value="RailRoad">Train</option>
+                                    <option value="Water">Ship/boat</option> -->
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="RouteDistance">Route distance:</label>
+                                    <input class="form-control" id="RouteDistance" type="text" readonly required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-3">
+                                    <button id="SaveRoute" type="button" class="btn btn-sm btn-outline-primary btn-block">Save</button>
+                                </div>
+                                <div class="form-group col-3">
+                                    <button id="CancelEditMode" type="button" class="btn btn-sm btn-outline-secondary btn-block">Cancel</button>
+                                </div>
+                                <div class="form-group col-3">
+                                    <button id="RestartRouteDefinition" type="button" class="d-none btn btn-sm btn-outline-warning btn-block">Restart</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
             </div>
         </div>
     </aside>

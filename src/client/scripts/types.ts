@@ -7,3 +7,7 @@ export interface FeatureEx extends Feature {
 
 export class FeatureEx implements FeatureEx {
 }
+
+export interface RouteTypeEditor {
+    editRoute(routeData: FeatureEx, routeSaveCallback: (n: Feature) => void): void;
+}
