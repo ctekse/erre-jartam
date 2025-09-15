@@ -32,18 +32,29 @@
     <script>
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 6,
           center: {lat: 46.545556, lng: 24.5625}
         });
 
-        var georssLayer = new google.maps.KmlLayer({
-          url: 'https://ctekse.github.io/erre-jartam/erre-jartam.kmz'
+        var kmlLayer = new google.maps.KmlLayer({
+          url: 'https://ctekse.github.io/erre-jartam/erre-jartam.kmz',
+          map: map,
+          preserveViewport: true
         });
-        georssLayer.setMap(map);
+
+        kmlLayer.addListener("click", (kmlEvent) => {
+          infowindow.setContent(kmlEvent.featureData.infoWindowHtml);
+          infowindow.open({
+            anchor: kmlEvent.anchor,
+            map: map
+          });
+        });
+
+        const infowindow = new google.maps.InfoWindow();
       }
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe5EOqs4u8fSWrCjWbXCbx0x7SOAyvo8c&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe5EOqs4u8fSWrCjWbXCbx0x7SOAyvo8c&callback=initMap&loading=async">
     </script>
   </body>
 </html>
